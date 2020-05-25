@@ -1,6 +1,5 @@
-// This is an Example to Send WhatsApp Message from React Native App
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, Linking, TextInput, Button} from 'react-native';
+import {View, StyleSheet, Linking, TextInput, Button} from 'react-native';
 
 export default class chatScreen extends Component {
   constructor(props) {

@@ -4,15 +4,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import chatScreen from './src/screen/chatScreen.js';
+import {configureStore} from '@reduxjs/toolkit';
+import {Provider} from 'react-redux';
 
-function SettingsScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>under development!</Text>
-    </View>
-  );
-}
+import rootReducer from './src/slices/index.js';
+
+const store = configureStore({reducer: rootReducer});
+
+import chatScreen from './src/screen/chatScreen.js';
+import historyScreen from './src/screen/historyScreen.js';
 
 function AboutScreen() {
   return (
@@ -27,28 +27,30 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs() {
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-          if (route.name === 'Chat') {
-            iconName = focused ? 'comments' : 'comments';
-          } else if (route.name === 'History') {
-            iconName = focused ? 'history' : 'history';
-          } else if (route.name === 'About') {
-            iconName = focused ? 'exclamation' : 'exclamation';
-          }
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: '#FFA300',
-        inactiveTintColor: 'gray',
-      }}>
-      <Tab.Screen name="Chat" component={chatScreen} />
-      <Tab.Screen name="History" component={SettingsScreen} />
-      <Tab.Screen name="About" component={AboutScreen} />
-    </Tab.Navigator>
+    <Provider store={store}>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
+            if (route.name === 'Chat') {
+              iconName = focused ? 'comments' : 'comments';
+            } else if (route.name === 'History') {
+              iconName = focused ? 'history' : 'history';
+            } else if (route.name === 'About') {
+              iconName = focused ? 'exclamation' : 'exclamation';
+            }
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: '#FFA300',
+          inactiveTintColor: 'gray',
+        }}>
+        <Tab.Screen name="Chat" component={chatScreen} />
+        <Tab.Screen name="History" component={historyScreen} />
+        <Tab.Screen name="About" component={AboutScreen} />
+      </Tab.Navigator>
+    </Provider>
   );
 }
 
