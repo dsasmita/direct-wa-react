@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useDispatch, useSelector} from 'react-redux';
@@ -65,18 +66,10 @@ const HistoryScreen = (props) => {
             data={histories}
             keyExtractor={(item) => item.key}
             renderItem={({item}) => (
-              <View
-                style={{
-                  margin: 5,
-                  backgroundColor: '#fff',
-                  padding: 10,
-                  flexDirection: 'row',
-                }}>
-                <View style={{flex: 1}}>
+              <View style={styles.listCOntainer}>
+                <View style={styles.listText}>
                   <Text>{item.phone}</Text>
-                  <Text style={{color: '#aaa'}}>
-                    {formatDate(item.date_time)}
-                  </Text>
+                  <Text color="#aaa">{formatDate(item.date_time)}</Text>
                 </View>
                 <View>
                   <TouchableOpacity onPress={() => sendMessage(item)}>
@@ -87,13 +80,7 @@ const HistoryScreen = (props) => {
             )}
           />
         ) : (
-          <View
-            style={{
-              margin: 5,
-              backgroundColor: '#fff',
-              padding: 10,
-              flexDirection: 'row',
-            }}>
+          <View style={styles.listCOntainer}>
             <Text>History Empty</Text>
           </View>
         )}
@@ -104,25 +91,34 @@ const HistoryScreen = (props) => {
   return (
     <>
       <SafeAreaView>{renderHistory()}</SafeAreaView>
-      <TouchableOpacity
-        style={{
-          borderWidth: 1,
-          borderColor: 'rgba(0,0,0,0.2)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 70,
-          position: 'absolute',
-          bottom: 20,
-          right: 20,
-          height: 70,
-          backgroundColor: '#f4511e',
-          borderRadius: 100,
-        }}
-        onPress={destroyAction}>
-        <Icon name="trash" size={30} style={{color: 'white'}} />
+      <TouchableOpacity style={styles.fabButton} onPress={destroyAction}>
+        <Icon name="trash" size={30} color="white" />
       </TouchableOpacity>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  listCOntainer: {
+    margin: 5,
+    backgroundColor: '#fff',
+    padding: 10,
+    flexDirection: 'row',
+  },
+  listText: {flex: 1},
+  fabButton: {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 70,
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    height: 70,
+    backgroundColor: '#f4511e',
+    borderRadius: 100,
+  },
+});
 
 export default HistoryScreen;

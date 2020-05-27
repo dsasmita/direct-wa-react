@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Linking, TextInput, Button, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Linking,
+  TextInput,
+  Button,
+  Alert,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {
@@ -58,10 +65,10 @@ const ChatScreen = (props) => {
           );
         })
         .catch(() => {
-          alert('Make sure Whatsapp installed on your device');
+          Alert.alert('Warning', 'Make sure Whatsapp installed on your device');
         });
     } else {
-      alert('Please insert mobile no');
+      Alert.alert('Warning', 'Please insert mobile no');
     }
   };
 
@@ -91,14 +98,14 @@ const ChatScreen = (props) => {
           multiline={true}
         />
       </View>
-      <View style={{marginTop: 20, width: '95%'}}>
+      <View style={styles.widthDefault}>
         <Button
           color="#FFA300"
           onPress={sendOnWhatsApp}
           title="Send WhatsApp Message"
         />
       </View>
-      <View style={{marginTop: 20, width: '95%'}}>
+      <View style={styles.widthDefault}>
         <Button color="#444" onPress={clearMessage} title="Clear Message" />
       </View>
     </View>
@@ -111,6 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  widthDefault: {marginTop: 20, width: '95%'},
   input: {
     width: '95%',
     height: 44,
