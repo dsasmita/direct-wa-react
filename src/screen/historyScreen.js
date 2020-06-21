@@ -18,6 +18,8 @@ import {
   historiesSelector,
 } from '../slices/histories.js';
 
+import NativeAds from '../components/nativeAds.js';
+
 const HistoryScreen = (props) => {
   const {navigation} = props;
   const {histories} = useSelector(historiesSelector);
@@ -61,24 +63,28 @@ const HistoryScreen = (props) => {
   const renderHistory = () => {
     return (
       <View>
+        <NativeAds />
         {histories && histories.length > 0 ? (
-          <FlatList
-            data={histories}
-            keyExtractor={(item) => item.key}
-            renderItem={({item}) => (
-              <View style={styles.listCOntainer}>
-                <View style={styles.listText}>
-                  <Text>{item.phone}</Text>
-                  <Text color="#aaa">{formatDate(item.date_time)}</Text>
+          <>
+            <FlatList
+              data={histories}
+              keyExtractor={(item) => item.key}
+              renderItem={({item}) => (
+                <View style={styles.listCOntainer}>
+                  <View style={styles.listText}>
+                    <Text>{item.phone}</Text>
+                    <Text color="#aaa">{formatDate(item.date_time)}</Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity onPress={() => sendMessage(item)}>
+                      <Icon name="comments" size={25} color="gray" />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View>
-                  <TouchableOpacity onPress={() => sendMessage(item)}>
-                    <Icon name="comments" size={25} color="gray" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-          />
+              )}
+            />
+            <NativeAds />
+          </>
         ) : (
           <View style={styles.listCOntainer}>
             <Text>History Empty</Text>

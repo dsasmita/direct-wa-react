@@ -3,12 +3,12 @@ import {View, Text, StyleSheet} from 'react-native';
 
 const AboutScreen = () => {
   return (
-    <>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View>
         <Text>Ashr Tech</Text>
         <Text>ashr.tech@gmail.com</Text>
       </View>
-    </>
+    </View>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   Alert,
+  Clipboard,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -14,6 +15,8 @@ import {
   setPhone,
   updateHistory,
 } from '../slices/histories.js';
+
+import NativeAds from '../components/nativeAds.js';
 
 const ChatScreen = (props) => {
   const dispatch = useDispatch();
@@ -72,6 +75,11 @@ const ChatScreen = (props) => {
     }
   };
 
+  const pasteClipboard = async () => {
+    const clipboardContent = await Clipboard.getString();
+    console.warn(clipboardContent);
+  };
+
   const clearMessage = () => {
     dispatch(setPhone(''));
     setMessage('');
@@ -79,13 +87,16 @@ const ChatScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={phone}
-        onChangeText={handleInputPhone}
-        placeholder={'Phone number'}
-        style={styles.input}
-        keyboardType={'numeric'}
-      />
+      <View style={[styles.widthDefault, {flexDirection: 'row'}]}>
+        <TextInput
+          value={phone}
+          onChangeText={handleInputPhone}
+          placeholder={'Phone number'}
+          style={styles.input}
+          keyboardType={'numeric'}
+        />
+        <Button color="#FFA300" onPress={pasteClipboard} title="Paste" />
+      </View>
       <View style={styles.textAreaContainer}>
         <TextInput
           value={message}
@@ -94,7 +105,7 @@ const ChatScreen = (props) => {
           underlineColorAndroid="transparent"
           placeholder="Type message"
           placeholderTextColor="grey"
-          numberOfLines={10}
+          numberOfLines={3}
           multiline={true}
         />
       </View>
@@ -108,6 +119,7 @@ const ChatScreen = (props) => {
       <View style={styles.widthDefault}>
         <Button color="#444" onPress={clearMessage} title="Clear Message" />
       </View>
+      <NativeAds />
     </View>
   );
 };
@@ -115,15 +127,11 @@ const ChatScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   widthDefault: {marginTop: 20, width: '95%'},
   input: {
-    width: '95%',
-    height: 44,
-    padding: 10,
-    margin: 20,
+    flex: 1,
     backgroundColor: '#D3D3D3',
   },
   textAreaContainer: {
@@ -131,9 +139,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 5,
     width: '95%',
+    marginTop: 10,
   },
   textArea: {
-    height: 150,
+    height: 50,
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
   },
