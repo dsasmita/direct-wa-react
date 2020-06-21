@@ -6,8 +6,8 @@ import {
   TextInput,
   Button,
   Alert,
-  Clipboard,
 } from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {
@@ -76,8 +76,8 @@ const ChatScreen = (props) => {
   };
 
   const pasteClipboard = async () => {
-    const clipboardContent = await Clipboard.getString();
-    console.warn(clipboardContent);
+    const text = await Clipboard.getString();
+    dispatch(setPhone(text));
   };
 
   const clearMessage = () => {
@@ -95,7 +95,7 @@ const ChatScreen = (props) => {
           style={styles.input}
           keyboardType={'numeric'}
         />
-        <Button color="#FFA300" onPress={pasteClipboard} title="Paste" />
+        <Button color="#444" onPress={pasteClipboard} title="Paste" />
       </View>
       <View style={styles.textAreaContainer}>
         <TextInput
